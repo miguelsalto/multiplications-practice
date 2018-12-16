@@ -25,9 +25,22 @@ class Tiempo {
         }
     }
 
+    incrementarSegundo() {
+        if (this.segundos === 59) {
+            this._cambiarAlMinutoSiguiente();
+        } else {
+            this.segundos++;
+        }
+    }
+
     _cambiarAlMinutoAnterior() {
         this.minutos--;
         this.segundos = 59;
+    }
+
+    _cambiarAlMinutoSiguiente() {
+        this.minutos++;
+        this.segundos = 0;
     }
 
     estaFinalizado() {

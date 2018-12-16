@@ -4,10 +4,10 @@ const MULTIPLICACIONES_POR_RENGLON = 9;
 const MAXIMO_NUMERO_EN_MULTIPLICACION = 12;
 const TOTAL_MULTIPLICACIONES = MULTIPLICACIONES_POR_RENGLON * RENGLONES;
 
-let TIMER;
-let TABLA = [];
-let MULTIPLICACIONES;
-let TIEMPO;
+let timer;
+let tabla = [];
+let multiplicaciones;
+let tiempo;
 
 function preparar() {
     crearTablaDeMultiplicaciones();
@@ -17,7 +17,7 @@ function preparar() {
 function crearTablaDeMultiplicaciones() {
     for (let n1 = 1; n1 <= MAXIMO_NUMERO_EN_MULTIPLICACION; n1++) {
         for (let n2 = 1; n2 <= MAXIMO_NUMERO_EN_MULTIPLICACION; n2++) {
-            TABLA.push(new Multiplicacion(n1, n2));
+            tabla.push(new Multiplicacion(n1, n2));
         }
     }
 }
@@ -36,11 +36,11 @@ function generarTest() {
 }
 
 function generarMultiplicaciones() {
-    MULTIPLICACIONES = TABLA.slice();
+    multiplicaciones = tabla.slice();
     let maxMultiplicaciones = RENGLONES * MULTIPLICACIONES_POR_RENGLON;
     for (let i = 0; i < maxMultiplicaciones; i++) {
-        let indiceDeIntercambio = i + generarNumeroAleatorio(MULTIPLICACIONES.length - i);
-        intercambiar(MULTIPLICACIONES, i, indiceDeIntercambio);
+        let indiceDeIntercambio = i + generarNumeroAleatorio(multiplicaciones.length - i);
+        intercambiar(multiplicaciones, i, indiceDeIntercambio);
     }
 }
 
@@ -49,21 +49,24 @@ function generarTablaDeMultiplicacionesHtml() {
 }
 
 function asignarTiempoInicial() {
-    TIEMPO = new Tiempo(3, 0);
+    tiempo = new Tiempo(3, 0);
 }
 
 function mostrarTiempo() {
     let lblTiempo = getById('lblTiempo');
-    let prefijo = TIEMPO.segundos < 10 ? '0' : '';
-    lblTiempo.innerHTML = `${TIEMPO.minutos}:${prefijo}${TIEMPO.segundos}`;
+    let prefijo = tiempo.segundos < 10 ? '0' : '';
+    lblTiempo.innerHTML = `${tiempo.minutos}:${prefijo}${tiempo.segundos}`;
 }
 
 function empezarTimer() {
-    TIMER = setInterval(actualizarTiempo, 1000);
+    if (timer) {
+        clearInterval(timer);
+    }
+    timer = setInterval(actualizarTiempo, 1000);
 }
 
 function actualizarTiempo() {
-    TIEMPO.restarSegundo();
+    tiempo.restarSegundo();
     mostrarTiempo();
     mostrarAciertosSiTiempoTerminado();
 }
@@ -96,15 +99,15 @@ function generarRenglonHtml(indiceRenglon) {
 }
 
 function generarMultiplicacionHtml(indice) {
-    let multiplicacion = MULTIPLICACIONES[indice];
+    let multiplicacion = multiplicaciones[indice];
     let celdaOperacion = `<td id="tdOperacion${indice}">${multiplicacion.num1} x ${multiplicacion.num2} = </td>`;
     let celdaCaja = `<td id="tdCaja${indice}"><input type="text" id="m${indice}" size="5"></td>`;
     return `${celdaOperacion}${celdaCaja}`;
 }
 
 function mostrarAciertosSiTiempoTerminado() {
-    if (TIEMPO.estaFinalizado()) {
-        clearInterval(TIMER);
+    if (tiempo.estaFinalizado()) {
+        clearInterval(timer);
         mostrarResultado();
     }
 }
@@ -122,7 +125,7 @@ function obtenResultado() {
     for (let i = 0; i < TOTAL_MULTIPLICACIONES; i++) {
         const resp = getRespuestaUsuario(i);
         if (resp >= 0) {
-            const indices = MULTIPLICACIONES[i].esRespuestaCorrecta(resp) ? correctas : errores;
+            const indices = multiplicaciones[i].esRespuestaCorrecta(resp) ? correctas : errores;
             indices.push(i);
         } else {
             faltantes.push(i);

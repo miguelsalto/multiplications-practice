@@ -4,6 +4,8 @@ const MULTIPLICACIONES_POR_RENGLON = 2;
 const TOTAL_MULTIPLICACIONES = MULTIPLICACIONES_POR_RENGLON * RENGLONES;
 
 let multiplicaciones = [];
+let tiempo;
+let timer;
 
 function preparar() {
     agregarListeners();
@@ -13,6 +15,9 @@ function generarTest() {
     crearMultiplicaciones();
     generarMultiplicacionesHtml();
     getById("btnCalificar").style.display = 'block';
+    asignarTiempoInicial();
+    mostrarTiempo();
+    empezarTimer();
 }
 
 function agregarListeners() {
@@ -29,7 +34,34 @@ function crearMultiplicaciones() {
     }
 }
 
+function asignarTiempoInicial() {
+    tiempo = new Tiempo(0, 0);
+}
+
+function mostrarTiempo() {
+    let lblTiempo = getById('lblTiempo');
+    lblTiempo.innerHTML = obtenerTiempo();
+}
+
+function obtenerTiempo() {
+    let prefijo = tiempo.segundos < 10 ? '0' : '';
+    return `${tiempo.minutos}:${prefijo}${tiempo.segundos}`;
+}
+
+function empezarTimer() {
+    if (timer) {
+        clearInterval(timer);
+    }
+    timer = setInterval(actualizarTiempo, 1000);
+}
+
+function actualizarTiempo() {
+    tiempo.incrementarSegundo();
+    mostrarTiempo();
+}
+
 function calificar() {
+    clearInterval(timer);
     let resultado = obtenResultado();
     colorearCeldasMedianteCalificacion(resultado);
     alert(creaResumen(resultado));
@@ -66,7 +98,7 @@ function coloreaCeldaMultiplicacion(indice, color) {
 
 function creaResumen(resultado) {
     return `${resultado.correctas.length}/${TOTAL_MULTIPLICACIONES} 
-        con ${resultado.errores.length} errores`;
+        con ${resultado.errores.length} errores, tiempo ${obtenerTiempo()}`;
 }
 
 function getRespuestaUsuario(indice) {
