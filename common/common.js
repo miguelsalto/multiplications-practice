@@ -7,7 +7,7 @@ class Multiplicacion {
     }
 
     esRespuestaCorrecta(respuesta) {
-        return (this.num1 * this.num2) === respuesta;
+        return Math.abs((this.num1 * this.num2) - respuesta) < 1e-6;
     }
 }
 
