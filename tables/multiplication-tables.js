@@ -37,8 +37,7 @@ function generarTest() {
 
 function generarMultiplicaciones() {
     multiplicaciones = tabla.slice();
-    let maxMultiplicaciones = RENGLONES * MULTIPLICACIONES_POR_RENGLON;
-    for (let i = 0; i < maxMultiplicaciones; i++) {
+    for (let i = 0; i < TOTAL_MULTIPLICACIONES; i++) {
         let indiceDeIntercambio = i + generarNumeroAleatorio(multiplicaciones.length - i);
         intercambiar(multiplicaciones, i, indiceDeIntercambio);
     }
@@ -46,6 +45,27 @@ function generarMultiplicaciones() {
 
 function generarTablaDeMultiplicacionesHtml() {
     getById('content').innerHTML = `<table border="1"><tr>${generarRenglonesHtml()}</tr></table>`;
+    agregarListenerTestTerminado();
+}
+
+function agregarListenerTestTerminado() {
+    document.addEventListener('keyup', verificarTestTerminado);
+}
+
+function verificarTestTerminado() {
+    if (getById("m0")) {
+        let respondidas = 0;
+        for (let i = 0; i < TOTAL_MULTIPLICACIONES; i++) {
+            let txt = getById(`m${i}`);
+            let resp = parseInt(txt.value);
+            respondidas += isNaN(resp) ? 0 : 1;
+        }
+        if (respondidas === TOTAL_MULTIPLICACIONES) {
+            show("btnCalificar");
+        } else {
+            hide("btnCalificar");
+        }
+    }
 }
 
 function asignarTiempoInicial() {
@@ -108,6 +128,7 @@ function generarMultiplicacionHtml(indice) {
 function mostrarAciertosSiTiempoTerminado() {
     if (tiempo.estaFinalizado()) {
         clearInterval(timer);
+        hide("btnCalificar");
         mostrarResultado();
     }
 }
