@@ -23,8 +23,8 @@ function crearTablaDeMultiplicaciones() {
 }
 
 function agregarListeners() {
-    let btnGenerar = getById('btnGenerar');
-    btnGenerar.addEventListener('click', generarTest);
+    getById('btnGenerar').addEventListener('click', generarTest);
+    getById("btnCalificar").addEventListener('click', calificar);
 }
 
 function generarTest() {
@@ -67,7 +67,7 @@ function verificarTestTerminado() {
             hide("btnCalificar");
         }
     }
-}
+}s
 
 function asignarTiempoInicial() {
     tiempo = new Tiempo(3, 0);
@@ -132,10 +132,14 @@ function generarMultiplicacionHtml(indice) {
 
 function mostrarAciertosSiTiempoTerminado() {
     if (tiempo.estaFinalizado()) {
-        clearInterval(timer);
-        hide("btnCalificar");
-        mostrarResultado();
+        calificar();
     }
+}
+
+function calificar() {
+    clearInterval(timer);
+    hide("btnCalificar");
+    mostrarResultado();
 }
 
 function mostrarResultado() {
