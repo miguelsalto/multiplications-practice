@@ -33,6 +33,7 @@ function generarTest() {
     asignarTiempoInicial();
     mostrarTiempo();
     empezarTimer();
+    situarFocoPrimeraOperacion();
 }
 
 function generarMultiplicaciones() {
@@ -63,6 +64,10 @@ function empezarTimer() {
         clearInterval(timer);
     }
     timer = setInterval(actualizarTiempo, 1000);
+}
+
+function situarFocoPrimeraOperacion() {
+    getById("m0").focus();
 }
 
 function actualizarTiempo() {
