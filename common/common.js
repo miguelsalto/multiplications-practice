@@ -51,3 +51,15 @@ class Tiempo {
 function getById(id) {
     return document.getElementById(id);
 }
+
+function show(id) {
+    let style = getById(id).style;
+    style.display = 'block';
+    style.visibility = "visible";
+}
+
+function hide(id) {
+    let style = getById(id).style;
+    style.display = 'none';
+    style.visibility = "hidden";
+}

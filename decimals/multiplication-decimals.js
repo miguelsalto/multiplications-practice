@@ -14,7 +14,7 @@ function preparar() {
 function generarTest() {
     crearMultiplicaciones();
     generarMultiplicacionesHtml();
-    getById("btnCalificar").style.display = 'block';
+    show("btnCalificar");
     asignarTiempoInicial();
     mostrarTiempo();
     empezarTimer();
@@ -60,11 +60,14 @@ function actualizarTiempo() {
     mostrarTiempo();
 }
 
-function calificar() {
-    clearInterval(timer);
+function calificar() {    
     let resultado = obtenResultado();
     colorearCeldasMedianteCalificacion(resultado);
-    alert(creaResumen(resultado));
+    let terminar = confirm(creaResumen(resultado));
+    if (terminar) {
+        clearInterval(timer);
+        hide("btnCalificar");
+    }
 }
 
 function obtenResultado() {
@@ -98,7 +101,8 @@ function coloreaCeldaMultiplicacion(indice, color) {
 
 function creaResumen(resultado) {
     return `${resultado.correctas.length}/${TOTAL_MULTIPLICACIONES} 
-        con ${resultado.errores.length} errores, tiempo ${obtenerTiempo()}`;
+        con ${resultado.errores.length} errores, tiempo ${obtenerTiempo()}\n
+        Deseas terminar?`;
 }
 
 function getRespuestaUsuario(indice) {
