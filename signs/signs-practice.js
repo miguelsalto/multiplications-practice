@@ -1,17 +1,26 @@
 "use strict";
 
 const _MAX = 20;
-const _operations = [];
+let _operations = [];
 let timer;
 let tiempo;
 
 function generateTable() {
+    cleanOperations();
     let table = document.createElement('table');
     table.setAttribute('class', 'center');
     generateRows(table);
     getById('operations').appendChild(table);
     show('btnScore');
     startClock();
+}
+
+function cleanOperations() {
+    _operations = [];
+    const operations = getById('operations');
+    while (operations.firstChild) {
+        operations.removeChild(operations.firstChild);
+    }
 }
 
 function generateRows(table) {
