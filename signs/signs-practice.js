@@ -44,10 +44,10 @@ function calculateScore() {
         let color;
         if (getAnswer(i) === _operations[i].getResult()) {
             correct++;
-            color = 'green';
+            color = '#56A804';
         } else {
             mistakes++;
-            color = 'red';
+            color = '#FE380D';
         }
         markInputColor(i, color);
     }
