@@ -1,6 +1,6 @@
 "use strict";
 
-const _MAX = 20;
+const _MAX = 10;
 let _operations = [];
 let timer;
 let tiempo;

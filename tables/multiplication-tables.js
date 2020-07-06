@@ -67,7 +67,7 @@ function verificarTestTerminado() {
             hide("btnCalificar");
         }
     }
-}s
+}
 
 function asignarTiempoInicial() {
     tiempo = new Tiempo(3, 0);
